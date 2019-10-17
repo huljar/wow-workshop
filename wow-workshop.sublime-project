@@ -5,7 +5,8 @@
             "path": "public"
         },
         {
-            "path": "src"
+            "path": "src",
+            "file_exclude_patterns": ["apikey.json", "apikey.json.example"]
         }
     ]
 }

@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# credentials file (API key)
+/src/battlenet/apikey.json
+
 # dependencies
 /node_modules
 /.pnp
@@ -13,6 +16,9 @@
 
 # editor-specific
 *.sublime-workspace
+
+# environment file
+/.env
 
 # misc
 .DS_Store
