@@ -5,7 +5,7 @@ A World of Warcraft multi-tool for character assessment.
 ## How to use
 
 You need a Blizzard API key to use this tool. If you don't have one yet, you
-can obtain one [https://develop.battle.net/access/](on battle.net).
+can obtain one [on battle.net](https://develop.battle.net/access/).
 
 The API key consists of a client ID and a secret. Place this information into
 the file `src/battlenet/apikey.json`. It has the following structure:
