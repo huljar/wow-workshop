@@ -4,7 +4,7 @@ import APIKey from "./apikey.json";
 /**
  * Access Token type conforming with the OAuth2 standard.
  */
-interface AccessToken {
+export interface AccessToken {
     access_token: string;
     token_type: string;
     expires_in: number;
@@ -33,9 +33,7 @@ export function getAccessToken(): Promise<Readonly<AccessToken>> {
             method: "POST",
             headers: headers,
             body: formData
-        })
-            .then(response => (response.ok ? response.json() : Promise.reject(response.statusText)))
-            .catch(console.error);
+        }).then(response => (response.ok ? response.json() : Promise.reject(response.statusText)));
     }
 
     return accessToken;
