@@ -4,7 +4,7 @@ import "./CharacterSearchInput.scss";
 type CharacterSearchInputProps = {};
 
 export const CharacterSearchInput: React.FC = () => {
-    const [name, setName] = useState<string>("DummyCharacterName");
+    const [name, setName] = useState<string>("Dummy Character Name");
 
     const handleInputChange = useCallback(e => {
         setName(e.target.value);
