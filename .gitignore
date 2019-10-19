@@ -3,6 +3,9 @@
 # credentials file (API key)
 /src/battlenet/apikey.json
 
+# idea
+/.idea
+
 # dependencies
 /node_modules
 /.pnp
