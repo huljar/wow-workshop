@@ -2,7 +2,7 @@ enum Region {
     EU = "eu",
     US = "us",
     KR = "kr",
-    TW = "tw"
+    TW = "tw",
 }
 
 export const REGION: Region = Region.EU;

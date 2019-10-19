@@ -1,17 +1,24 @@
-import React from "react";
-import "./App.css";
+import React, { ChangeEventHandler, useCallback, useState } from "react";
+import "./ServerSelectionForm.scss";
 
-export const ServerSelectionMenu: React.FC = () => {
+const dummyDataForServerSelection: string[] = ["Server", "Server", "Server", "Server"];
+
+export const ServerSelectionForm: React.FC = () => {
+    const [server, setServer] = useState<string>("DummyServer");
+
+    const handleOptionChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(e => {
+        setServer(e.target.value);
+    }, []);
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Learn React
-                </a>
-            </header>
+        <div className="ServerSelectionForm">
+            <select onChange={handleOptionChange}>
+                {dummyDataForServerSelection.map((value: string, index: number) => (
+                    <option value={value + " " + index}>{value + " " + index}</option>
+                ))}
+            </select>
+            <br />
+            {server}
         </div>
     );
 };
