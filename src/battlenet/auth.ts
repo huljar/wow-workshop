@@ -32,15 +32,10 @@ export function getAccessToken(): Promise<Readonly<AccessToken>> {
         accessToken = fetch(requestUrl, {
             method: "POST",
             headers: headers,
-<<<<<<< HEAD:src/battlenet/auth.ts
-            body: formData
-        }).then(response => (response.ok ? response.json() : Promise.reject(response.statusText)));
-=======
             body: formData,
         })
             .then(response => (response.ok ? response.json() : Promise.reject(response.statusText)))
             .catch(console.error);
->>>>>>> dummy data and clean up:src/battlenet/auth.ts
     }
 
     return accessToken;
