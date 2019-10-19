@@ -1,7 +1,7 @@
 import React from "react";
-import "./App.scss";
+import "./App.css";
 
-export const App: React.FC = () => {
+export const ServerSelectionMenu: React.FC = () => {
     return (
         <div className="App">
             <header className="App-header">

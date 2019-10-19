@@ -1,7 +1,7 @@
 import React from "react";
-import "./App.scss";
+import "./CharacterInfo.css";
 
-export const App: React.FC = () => {
+export const CharacterInfo: React.FC = () => {
     return (
         <div className="App">
             <header className="App-header">
