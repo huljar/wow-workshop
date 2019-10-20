@@ -22,14 +22,19 @@
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "prettier"
     ],
     "extends": [
-      "react-app",
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ]
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended",
+      "react-app"
+    ],
+    "rules": {
+      "prettier/prettier": "warn"
+    }
   },
   "browserslist": {
     "production": [
@@ -47,6 +52,8 @@
     "@typescript-eslint/eslint-plugin": "^2.4.0",
     "@typescript-eslint/parser": "^2.4.0",
     "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "prettier": "^1.18.2",
     "sass": "^1.23.0"
   }
