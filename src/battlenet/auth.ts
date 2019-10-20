@@ -1,4 +1,4 @@
-import { REGION } from "./utils";
+import { BNET_BASE_URL } from "./utils";
 import APIKey from "./apikey.json";
 
 /**
@@ -12,7 +12,6 @@ export interface AccessToken {
     scope?: string;
 }
 
-const AUTH_BASE_URL = `https://${REGION}.battle.net`;
 const OAUTH_PATH = "/oauth/token";
 let accessToken: Promise<Readonly<AccessToken>> | undefined;
 
@@ -25,7 +24,7 @@ let accessToken: Promise<Readonly<AccessToken>> | undefined;
  */
 export function getAccessToken(): Promise<Readonly<AccessToken>> {
     if (!accessToken) {
-        const requestUrl = `${AUTH_BASE_URL}${OAUTH_PATH}`;
+        const requestUrl = `${BNET_BASE_URL}${OAUTH_PATH}`;
         const headers = new Headers();
         headers.append("Authorization", `Basic ${btoa(`${APIKey.client_id}:${APIKey.client_secret}`)}`);
         const formData = new FormData();
