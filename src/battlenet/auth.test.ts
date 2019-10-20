@@ -1,4 +1,4 @@
-import { AccessToken, getAccessToken, invalidateAccessToken } from "battlenet/auth";
+import { AccessToken, getAccessToken, invalidateAccessToken } from "./auth";
 
 /* eslint @typescript-eslint/camelcase: "off" */
 describe("getAccessToken", () => {

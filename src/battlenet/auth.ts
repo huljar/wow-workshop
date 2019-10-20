@@ -34,8 +34,7 @@ export function getAccessToken(): Promise<Readonly<AccessToken>> {
             headers: headers,
             body: formData,
         })
-            .then(response => (response.ok ? response.json() : Promise.reject(response.statusText)))
-            .catch(console.error);
+            .then(response => (response.ok ? response.json() : Promise.reject(response.statusText)));
     }
 
     return accessToken;
