@@ -7,9 +7,6 @@
         {
             "path": "src",
             "file_exclude_patterns": ["apikey.json", "apikey.json.example"]
-        },
-        {
-            "path": "test"
         }
     ]
 }

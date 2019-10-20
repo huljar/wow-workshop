@@ -2,7 +2,6 @@
     "useTabs": false,
     "printWidth": 120,
     "tabWidth": 4,
-    "trailingComma": "es5",
     "jsxBracketSameLine": true,
     "parser": "typescript"
 }

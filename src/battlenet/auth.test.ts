@@ -7,14 +7,17 @@ describe("getAccessToken", () => {
     });
 
     it("correctly parses the access token", async () => {
-        spyOn(window, "fetch").and.returnValue(Promise.resolve({
-            ok: true,
-            json: () => Promise.resolve<AccessToken>({
-                access_token: "something",
-                token_type: "else",
-                expires_in: 2
+        spyOn(window, "fetch").and.returnValue(
+            Promise.resolve({
+                ok: true,
+                json: () =>
+                    Promise.resolve<AccessToken>({
+                        access_token: "something",
+                        token_type: "else",
+                        expires_in: 2
+                    })
             })
-        }));
+        );
 
         const accessToken = await getAccessToken();
         expect(accessToken).toEqual({
@@ -25,10 +28,11 @@ describe("getAccessToken", () => {
     });
 
     it("rejects when the response is not with code 2xx", done => {
-        spyOn(window, "fetch").and.returnValue(Promise.resolve({
-            ok: false,
-            json: () => {}
-        }));
+        spyOn(window, "fetch").and.returnValue(
+            Promise.resolve({
+                ok: false
+            })
+        );
 
         getAccessToken().catch(done);
     });
