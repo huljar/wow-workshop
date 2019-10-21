@@ -13,19 +13,33 @@ export const BNET_BASE_URL = `https://${REGION}.battle.net`;
 
 export type Namespace = "static" | "dynamic" | "profile";
 
-export async function generateHeaders(
-    namespace: Namespace,
-    additionalHeaders?: { [name: string]: string }
-): Promise<Headers> {
-    // init headers object with provided additional headers
-    const headers = new Headers(additionalHeaders);
+export async function generateRequestUrl(path: string, namespace: Namespace) {
+    // build URL: start with API base
+    let url = API_BASE_URL;
 
-    // add authorization header (access token)
+    // add separator if necessary
+    if (!path.startsWith("/")) {
+        url += "/";
+    }
+
+    // add the specified path
+    url += path;
+
+    // add query string or parameter separator if necessary
+    if (path.includes("?")) {
+        if (!path.endsWith("?") && !path.endsWith("&")) {
+            url += "&";
+        }
+    } else {
+        url += "?";
+    }
+
+    // add namespace
+    url += `namespace=${namespace}-${REGION}`;
+
+    // add access token
     const accessToken = await getAccessToken();
-    headers.append("Authorization", `Bearer ${accessToken.access_token}`);
+    url += `&access_token=${accessToken.access_token}`;
 
-    // add namespace header (required for every request)
-    headers.append("Battlenet-Namespace", `${namespace}-${REGION}`);
-
-    return headers;
+    return url;
 }

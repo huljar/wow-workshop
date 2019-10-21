@@ -1,8 +1,8 @@
-import { generateHeaders, REGION } from "./utils";
+import { generateRequestUrl, API_BASE_URL, REGION } from "./utils";
 import { AccessToken } from "./auth";
 
 /* eslint @typescript-eslint/camelcase: "off" */
-describe("generateHeaders", () => {
+describe("generateRequestUrl", () => {
     beforeAll(() => {
         spyOn(window, "fetch").and.returnValue(
             Promise.resolve({
@@ -17,12 +17,23 @@ describe("generateHeaders", () => {
         );
     });
 
-    it("adds the correct headers", async () => {
-        const headers = await generateHeaders("profile", {
-            "X-Powered-By": "Blizzard"
-        });
-        expect(headers.get("X-Powered-By")).toBe("Blizzard");
-        expect(headers.get("Authorization")).toBe("Bearer wow");
-        expect(headers.get("Battlenet-Namespace")).toBe(`profile-${REGION}`);
+    it("generates the correct URL when path starts with '/' and contains '?'", async () => {
+        const url = await generateRequestUrl("/foo/bar?lul=xd", "profile");
+        expect(url).toBe(`${API_BASE_URL}/foo/bar?lul=xd&namespace=profile-${REGION}&access_token=wow`);
+    });
+
+    it("generates the correct URL when path does not start with '/' and ends with '?'", async () => {
+        const url = await generateRequestUrl("deathknight/unholy?", "dynamic");
+        expect(url).toBe(`${API_BASE_URL}/deathknight/unholy?namespace=dynamic-${REGION}&access_token=wow`);
+    });
+
+    it("generates the correct URL when path does not start with '/' and ends with '&'", async () => {
+        const url = await generateRequestUrl("deathknight/blood?tank=true&", "static");
+        expect(url).toBe(`${API_BASE_URL}/deathknight/blood?tank=true&namespace=static-${REGION}&access_token=wow`);
+    });
+
+    it("generates the correct URL when path starts with '/' and does not contain '?'", async () => {
+        const url = await generateRequestUrl("/deathknight/frost", "static");
+        expect(url).toBe(`${API_BASE_URL}/deathknight/frost?namespace=static-${REGION}&access_token=wow`);
     });
 });
