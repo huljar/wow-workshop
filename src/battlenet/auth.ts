@@ -19,8 +19,7 @@ let accessToken: Promise<Readonly<AccessToken>> | undefined;
  * Request an access token from battle.net using the credentials provided in the apikey.json file. The fetched token is
  * cached for future requests.
  *
- * @return  {Promise<Readonly<AccessToken>>}  A promise that resolves to the access token if successful. Otherwise, it
- *                                            is rejected.
+ * @return  A promise that resolves to the access token if successful. Otherwise, it is rejected.
  */
 export function getAccessToken(): Promise<Readonly<AccessToken>> {
     if (!accessToken) {
@@ -34,12 +33,17 @@ export function getAccessToken(): Promise<Readonly<AccessToken>> {
             method: "POST",
             headers: headers,
             body: formData
-        }).then(response => (response.ok ? response.json() : Promise.reject(response.statusText)));
+        }).then(response =>
+            response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`)
+        );
     }
 
     return accessToken;
 }
 
+/**
+ * Invalidates the cached access token.
+ */
 export function invalidateAccessToken(): void {
     accessToken = undefined;
 }

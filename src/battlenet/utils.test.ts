@@ -1,7 +1,7 @@
-import { generateRequestUrl, API_BASE_URL, REGION } from "./utils";
+import { generateRequestUrl, callApi, API_BASE_URL, REGION } from "./utils";
 import { AccessToken } from "./auth";
 
-/* eslint @typescript-eslint/camelcase: "off" */
+/* eslint @typescript-eslint/camelcase: "off", @typescript-eslint/no-explicit-any: "off" */
 describe("generateRequestUrl", () => {
     beforeAll(() => {
         spyOn(window, "fetch").and.returnValue(
@@ -35,5 +35,37 @@ describe("generateRequestUrl", () => {
     it("generates the correct URL when path starts with '/' and does not contain '?'", async () => {
         const url = await generateRequestUrl("/deathknight/frost", "static");
         expect(url).toBe(`${API_BASE_URL}/deathknight/frost?namespace=static-${REGION}&access_token=wow`);
+    });
+});
+
+describe("callApi", () => {
+    it("correctly fetches and parses the JSON response", async () => {
+        spyOn(window, "fetch").and.callFake(url => {
+            expect(url).toBe("foobar");
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ something: ["with", 3, "entries"] })
+            });
+        });
+
+        const json = await callApi<{ something: any[] }>("foobar");
+        expect(json).toEqual({ something: ["with", 3, "entries"] });
+    });
+
+    it("rejects when the response is not with code 2xx", async done => {
+        spyOn(window, "fetch").and.returnValue(
+            Promise.resolve({
+                ok: false,
+                status: 418,
+                statusText: "I'm a teapot"
+            })
+        );
+
+        try {
+            await callApi("foobar");
+        } catch (error) {
+            expect(error).toBe("418 I'm a teapot");
+            done();
+        }
     });
 });

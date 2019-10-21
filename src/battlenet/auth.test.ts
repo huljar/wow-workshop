@@ -27,13 +27,20 @@ describe("getAccessToken", () => {
         });
     });
 
-    it("rejects when the response is not with code 2xx", done => {
+    it("rejects when the response is not with code 2xx", async done => {
         spyOn(window, "fetch").and.returnValue(
             Promise.resolve({
-                ok: false
+                ok: false,
+                status: 418,
+                statusText: "I'm a teapot"
             })
         );
 
-        getAccessToken().catch(done);
+        try {
+            await getAccessToken();
+        } catch (error) {
+            expect(error).toBe("418 I'm a teapot");
+            done();
+        }
     });
 });
