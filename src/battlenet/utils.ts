@@ -7,11 +7,29 @@ enum Region {
     TW = "tw"
 }
 
-export const REGION: Region = Region.EU;
-export const API_BASE_URL = `https://${REGION}.api.blizzard.com`;
-export const BNET_BASE_URL = `https://${REGION}.battle.net`;
+/* eslint-disable @typescript-eslint/camelcase */
+enum Locale {
+    en_US = "en_US",
+    es_MX = "es_MX",
+    pt_BR = "pt_BR",
+    de_DE = "de_DE",
+    en_GB = "en_GB",
+    es_ES = "es_ES",
+    fr_FR = "fr_FR",
+    it_IT = "it_IT",
+    ru_RU = "ru_RU",
+    ko_KR = "ko_KR",
+    zh_TW = "zh_TW",
+    zh_CN = "zh_CN"
+}
+/* eslint-enable @typescript-eslint/camelcase */
 
 export type Namespace = "static" | "dynamic" | "profile";
+
+export const REGION: Region = Region.EU;
+export const LOCALE: Locale = Locale.en_GB;
+export const API_BASE_URL = `https://${REGION}.api.blizzard.com`;
+export const BNET_BASE_URL = `https://${REGION}.battle.net`;
 
 /**
  * Generate a full URL to call the Battle.net API with.
@@ -43,6 +61,9 @@ export async function generateRequestUrl(path: string, namespace: Namespace) {
 
     // add namespace
     url += `namespace=${namespace}-${REGION}`;
+
+    // add locale
+    url += `&locale=${LOCALE}`;
 
     // add access token
     const accessToken = await getAccessToken();
