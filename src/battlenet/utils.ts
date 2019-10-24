@@ -24,6 +24,17 @@ enum Locale {
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
+/**
+ * Interface for response data shared by all API responses. Extend from this interface for the actual response types.
+ */
+export interface ApiResponse {
+    _links: {
+        self: {
+            href: string;
+        };
+    };
+}
+
 export type Namespace = "static" | "dynamic" | "profile";
 
 export const REGION: Region = Region.EU;
@@ -84,5 +95,28 @@ export function callApi<T extends object>(url: string): Promise<T> {
         method: "GET"
     }).then<T>(response =>
         response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`)
+    );
+}
+
+export function format(template: string, ...args: string[]): string;
+export function format(template: string, args: { [placeholder: string]: string }): string;
+/**
+ * { function_description }
+ *
+ * @param  template  The template
+ * @param  args      The arguments
+ * @return  Formatted string
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function format(template: string, ...args: (string | { [placeholder: string]: string })[]) {
+    if (args.length > 0 && typeof args[0] === "object") {
+        return Object.entries(args[0]).reduce(
+            (workStr, arg) => workStr.replace(new RegExp(`\\{${arg[0]}\\}`, "g"), arg[1]),
+            template
+        );
+    }
+    return (args as string[]).reduce(
+        (workStr, arg, idx) => workStr.replace(new RegExp(`\\{${idx}\\}`, "g"), arg),
+        template
     );
 }

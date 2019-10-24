@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, useCallback, useState, useEffect } from "react";
 import "./ServerSelectionForm.scss";
 
-import { fetchRealmList } from "battlenet/realm";
+import { fetchRealmList, fetchRealmDetails } from "battlenet/gameData/realm";
 
 interface Server {
     name: string;
@@ -13,9 +13,14 @@ export const ServerSelectionForm: React.FC = () => {
     const [serverList, setServerList] = useState<Server[]>([]);
     const [selectedServer, setSelectedServer] = useState<number>(0);
 
-    const handleOptionChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(e => {
-        setSelectedServer(Number.parseInt(e.target.value));
-    }, []);
+    const handleOptionChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
+        e => {
+            const selectionIndex = Number.parseInt(e.target.value);
+            setSelectedServer(selectionIndex);
+            fetchRealmDetails(serverList[selectionIndex].slug).then(console.log);
+        },
+        [serverList]
+    );
 
     useEffect(() => {
         let ignore = false;
@@ -49,7 +54,7 @@ export const ServerSelectionForm: React.FC = () => {
             <select onChange={handleOptionChange}>
                 {serverList.length > 0 ? (
                     serverList.map((server, index) => (
-                        <option key={index} value={server.id}>
+                        <option key={index} value={index}>
                             {server.name}
                         </option>
                     ))

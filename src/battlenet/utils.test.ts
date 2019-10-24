@@ -1,4 +1,4 @@
-import { generateRequestUrl, callApi, API_BASE_URL, REGION, LOCALE } from "./utils";
+import { generateRequestUrl, callApi, format, API_BASE_URL, REGION, LOCALE } from "./utils";
 import { AccessToken } from "./auth";
 
 /* eslint @typescript-eslint/camelcase: "off", @typescript-eslint/no-explicit-any: "off" */
@@ -75,5 +75,31 @@ describe("callApi", () => {
             expect(error).toBe("418 I'm a teapot");
             done();
         }
+    });
+});
+
+describe("format", () => {
+    it("formats strings with numerical placeholders correctly", () => {
+        expect(format("First Arcan{0}t {1} {0} from Sura{2}. {} {3}", "is", "Thalyssra", "mar")).toBe(
+            "First Arcanist Thalyssra is from Suramar. {} {3}"
+        );
+    });
+
+    it("formats strings with named placeholders correctly", () => {
+        expect(
+            format(
+                "{druid}, {priestess}, and {warden} helped {bloodelf} in {continent}, but {warden} betrayed {priestess} to chase {demonhunter}. {yes}",
+                {
+                    druid: "Malfurion",
+                    priestess: "Tyrande",
+                    warden: "Maiev",
+                    bloodelf: "Kael'thas",
+                    continent: "Lordaeron",
+                    demonhunter: "Illidan"
+                }
+            )
+        ).toBe(
+            "Malfurion, Tyrande, and Maiev helped Kael'thas in Lordaeron, but Maiev betrayed Tyrande to chase Illidan. {yes}"
+        );
     });
 });
