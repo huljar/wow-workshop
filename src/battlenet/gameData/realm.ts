@@ -6,7 +6,7 @@ const REALM_PATH = "/data/wow/realm/{realmSlug}";
 /**
  * Interface for API call: Game Data API → Realm API → Realms Index
  */
-export interface RealmList extends ApiResponse {
+export interface RealmIndex extends ApiResponse {
     realms: {
         key: {
             href: string;
@@ -42,13 +42,13 @@ export interface Realm extends ApiResponse {
 }
 
 /**
- * Fetches the list of all realms in the region.
+ * Fetches the index of all realms in the region.
  *
- * @return  Promise that resolves to the realm list.
+ * @return  Promise that resolves to the realm index.
  */
-export async function fetchRealmList() {
+export async function fetchRealmIndex() {
     const requestUrl = await generateRequestUrl(REALM_INDEX_PATH, "dynamic");
-    return await callApi<RealmList>(requestUrl);
+    return await callApi<RealmIndex>(requestUrl);
 }
 
 /**
@@ -56,7 +56,7 @@ export async function fetchRealmList() {
  *
  * @return  Promise that resolves to the realm information.
  */
-export async function fetchRealmDetails(realmSlug: string) {
+export async function fetchRealm(realmSlug: string) {
     const requestUrl = await generateRequestUrl(format(REALM_PATH, { realmSlug }), "dynamic");
     return await callApi<Realm>(requestUrl);
 }

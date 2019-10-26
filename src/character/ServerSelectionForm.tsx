@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, useCallback, useState, useEffect } from "react";
 import "./ServerSelectionForm.scss";
 
-import { fetchRealmList, fetchRealmDetails } from "battlenet/gameData/realm";
+import { fetchRealmIndex, fetchRealm } from "battlenet/gameData/realm";
 
 interface Server {
     name: string;
@@ -17,7 +17,7 @@ export const ServerSelectionForm: React.FC = () => {
         e => {
             const selectionIndex = Number.parseInt(e.target.value);
             setSelectedServer(selectionIndex);
-            fetchRealmDetails(serverList[selectionIndex].slug).then(console.log);
+            fetchRealm(serverList[selectionIndex].slug).then(console.log);
         },
         [serverList]
     );
@@ -27,7 +27,7 @@ export const ServerSelectionForm: React.FC = () => {
 
         async function fetchData() {
             try {
-                const result = await fetchRealmList();
+                const result = await fetchRealmIndex();
                 if (!ignore) {
                     setServerList(
                         result.realms.map(realm => ({
