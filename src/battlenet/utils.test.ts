@@ -1,7 +1,7 @@
 import { generateRequestUrl, callApi, format, API_BASE_URL, REGION, LOCALE } from "./utils";
 import { AccessToken } from "./auth";
 
-/* eslint @typescript-eslint/camelcase: "off", @typescript-eslint/no-explicit-any: "off" */
+/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 describe("generateRequestUrl", () => {
     beforeAll(() => {
         spyOn(window, "fetch").and.returnValue(

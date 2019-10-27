@@ -1,8 +1,25 @@
-import { ApiResponse, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
+import { RealmShort } from "../gameData/realm";
+import { GuildShort } from "./guild";
+import { TitleShort } from "../gameData/title";
+import { ClassShort } from "../gameData/playableClass";
 
 const CHARACTER_PROFILE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}";
 const CHARACTER_PROFILE_STATUS_PATH = "/profile/wow/character/{realmSlug}/{characterName}/status";
 
+/**
+ * { item_description }
+ */
+export interface CharacterShort {
+    key: Key;
+    name: string;
+    id: number;
+    realm: RealmShort;
+}
+
+/**
+ * { item_description }
+ */
 export interface CharacterProfileSummary extends ApiResponse {
     id: number;
     name: string;
@@ -15,99 +32,44 @@ export interface CharacterProfileSummary extends ApiResponse {
         name: string;
     };
     race: {
-        key: {
-            href: string;
-        };
+        key: Key;
         name: string;
         id: number;
     };
-    character_class: {
-        key: {
-            href: string;
-        };
-        name: string;
-        id: number;
-    };
+    character_class: ClassShort;
     active_spec: {
-        key: {
-            href: string;
-        };
+        key: Key;
         name: string;
         id: number;
     };
     realm: {
-        key: {
-            href: string;
-        };
+        key: Key;
         name: string;
         id: number;
         slug: string;
     };
-    guild: {
-        key: {
-            href: string;
-        };
-        name: string;
-        id: number;
-        realm: {
-            key: {
-                href: string;
-            };
-            name: string;
-            id: number;
-            slug: string;
-        };
-    };
+    guild: GuildShort;
     level: number;
     experience: number;
     achievement_points: number;
-    achievements: {
-        href: string;
-    };
-    titles: {
-        href: string;
-    };
-    pvp_summary: {
-        href: string;
-    };
-    raid_progression: {
-        href: string;
-    };
-    media: {
-        href: string;
-    };
+    achievements: Key;
+    titles: Key;
+    pvp_summary: Key;
+    raid_progression: Key;
+    media: Key;
     last_login_timestamp: number;
     average_item_level: number;
     equipped_item_level: number;
-    specializations: {
-        href: string;
-    };
-    statistics: {
-        href: string;
-    };
-    mythic_keystone_profile: {
-        href: string;
-    };
-    equipment: {
-        href: string;
-    };
-    appearance: {
-        href: string;
-    };
-    collections: {
-        href: string;
-    };
-    active_title: {
-        key: {
-            href: string;
-        };
-        name: string;
-        id: number;
+    specializations: Key;
+    statistics: Key;
+    mythic_keystone_profile: Key;
+    equipment: Key;
+    appearance: Key;
+    collections: Key;
+    active_title: TitleShort & {
         display_string: string;
     };
-    reputations: {
-        href: string;
-    };
+    reputations: Key;
 }
 
 export interface CharacterProfileStatus extends ApiResponse {
@@ -120,7 +82,7 @@ export async function fetchCharacterProfileSummary(realmSlug: string, characterN
         format(CHARACTER_PROFILE_SUMMARY_PATH, { realmSlug, characterName }),
         "profile"
     );
-    return await callApi<CharacterProfileSummary>(requestUrl);
+    return callApi<CharacterProfileSummary>(requestUrl);
 }
 
 export async function fetchCharacterProfileStatus(realmSlug: string, characterName: string) {
@@ -128,5 +90,5 @@ export async function fetchCharacterProfileStatus(realmSlug: string, characterNa
         format(CHARACTER_PROFILE_STATUS_PATH, { realmSlug, characterName }),
         "profile"
     );
-    return await callApi<CharacterProfileStatus>(requestUrl);
+    return callApi<CharacterProfileStatus>(requestUrl);
 }

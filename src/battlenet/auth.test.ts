@@ -1,6 +1,6 @@
 import { AccessToken, getAccessToken, invalidateAccessToken } from "./auth";
 
-/* eslint @typescript-eslint/camelcase: "off" */
+/* eslint-disable @typescript-eslint/camelcase */
 describe("getAccessToken", () => {
     afterEach(() => {
         invalidateAccessToken();

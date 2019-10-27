@@ -35,6 +35,23 @@ export interface ApiResponse {
     };
 }
 
+/**
+ * { item_description }
+ */
+export interface Key {
+    href: string;
+}
+
+export interface Gendered<T> {
+    male: T;
+    female: T;
+}
+
+export interface Asset {
+    key: string;
+    valu: string;
+}
+
 export type Namespace = "static" | "dynamic" | "profile";
 
 export const REGION: Region = Region.EU;
@@ -98,8 +115,8 @@ export function callApi<T extends object>(url: string): Promise<T> {
     );
 }
 
-export function format(template: string, ...args: string[]): string;
-export function format(template: string, args: { [placeholder: string]: string }): string;
+export function format(template: string, ...args: (string | number | boolean)[]): string;
+export function format(template: string, args: { [placeholder: string]: string | number | boolean }): string;
 /**
  * { function_description }
  *
@@ -107,11 +124,13 @@ export function format(template: string, args: { [placeholder: string]: string }
  * @param  args      The arguments
  * @return  Formatted string
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function format(template: string, ...args: (string | { [placeholder: string]: string })[]) {
+export function format(
+    template: string,
+    ...args: (string | number | boolean | { [placeholder: string]: string | number | boolean })[]
+) {
     if (args.length > 0 && typeof args[0] === "object") {
         return Object.entries(args[0]).reduce(
-            (workStr, arg) => workStr.replace(new RegExp(`\\{${arg[0]}\\}`, "g"), arg[1]),
+            (workStr, arg) => workStr.replace(new RegExp(`\\{${arg[0]}\\}`, "g"), arg[1].toString()),
             template
         );
     }

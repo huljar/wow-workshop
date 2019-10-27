@@ -1,34 +1,23 @@
-import { ApiResponse, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
 
 const REALM_INDEX_PATH = "/data/wow/realm/index";
 const REALM_PATH = "/data/wow/realm/{realmSlug}";
 
-/**
- * Interface for API call: Game Data API → Realm API → Realms Index
- */
-export interface RealmIndex extends ApiResponse {
-    realms: {
-        key: {
-            href: string;
-        };
-        name: string;
-        id: number;
-        slug: string;
-    }[];
+export interface RealmShort {
+    key: Key;
+    name: string;
+    id: number;
+    slug: string;
 }
 
-export interface Realm extends ApiResponse {
+export interface RealmDetails {
     id: number;
     region: {
-        key: {
-            href: string;
-        };
+        key: Key;
         name: string;
         id: number;
     };
-    connected_realm: {
-        href: string;
-    };
+    connected_realm: Key;
     name: string;
     category: string;
     locale: string;
@@ -42,13 +31,25 @@ export interface Realm extends ApiResponse {
 }
 
 /**
+ * Interface for API call: Game Data → Realm → Realms Index
+ */
+export interface RealmIndex extends ApiResponse {
+    realms: RealmShort[];
+}
+
+/**
+ * Type for API call: Game Data → Realm → Realm
+ */
+export type Realm = RealmDetails & ApiResponse;
+
+/**
  * Fetches the index of all realms in the region.
  *
  * @return  Promise that resolves to the realm index.
  */
 export async function fetchRealmIndex() {
     const requestUrl = await generateRequestUrl(REALM_INDEX_PATH, "dynamic");
-    return await callApi<RealmIndex>(requestUrl);
+    return callApi<RealmIndex>(requestUrl);
 }
 
 /**
@@ -58,5 +59,5 @@ export async function fetchRealmIndex() {
  */
 export async function fetchRealm(realmSlug: string) {
     const requestUrl = await generateRequestUrl(format(REALM_PATH, { realmSlug }), "dynamic");
-    return await callApi<Realm>(requestUrl);
+    return callApi<Realm>(requestUrl);
 }
