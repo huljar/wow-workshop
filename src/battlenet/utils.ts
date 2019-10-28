@@ -42,6 +42,12 @@ export interface Key {
     href: string;
 }
 
+export interface ShortEntry {
+    key: Key;
+    name: string;
+    id: number;
+}
+
 export interface Gendered<T> {
     male: T;
     female: T;
@@ -49,7 +55,7 @@ export interface Gendered<T> {
 
 export interface Asset {
     key: string;
-    valu: string;
+    value: string;
 }
 
 export type Namespace = "static" | "dynamic" | "profile";
