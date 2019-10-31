@@ -36,8 +36,8 @@ export interface CharacterAppearanceSummary extends ApiResponse {
 /**
  * Fetches a character appearance summary.
  *
- * @param      {string}  realmSlug      The realm slug
- * @param      {string}  characterName  The character name
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
  */
 export async function fetchCharacterAppearanceSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(

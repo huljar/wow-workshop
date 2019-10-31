@@ -6,15 +6,6 @@ const ITEM_SUBCLASS_PATH = "/data/wow/item-class/{itemClassId}/item-subclass/{it
 const ITEM_PATH = "/data/wow/item/{itemId} ";
 const ITEM_MEDIA_PATH = "/data/wow/media/item/{itemId}";
 
-export interface ItemShort {
-    id: number;
-    slot: TypedName;
-    enchant: number;
-    item_appearance_modifier_id: number;
-    internal_slot_id: number;
-    subclass: number;
-}
-
 /**
  * Interface for API call: Game Data → Item → Item Classes Index
  */
