@@ -1,5 +1,4 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
-import { AchievementShort } from "./achievement";
+import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
 
 const PVP_SEASONS_INDEX_PATH = "/data/wow/pvp-season/index";
 const PVP_SEASON_PATH = "/data/wow/pvp-season/{pvpSeasonId}";
@@ -76,7 +75,7 @@ export interface PvPRewardsIndex extends ApiResponse {
             id: number;
             type: string;
         };
-        achievement: AchievementShort;
+        achievement: ShortEntry;
         rating_cutoff: number;
         faction: {
             type: string;
