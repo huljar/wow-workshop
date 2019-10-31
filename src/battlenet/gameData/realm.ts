@@ -55,7 +55,8 @@ export async function fetchRealmIndex() {
 /**
  * Fetches detailed information about a realm.
  *
- * @return  Promise that resolves to the realm information.
+ * @param  realmSlug  Slug string of the realm
+ * @return  Promise that resolves to the realm information
  */
 export async function fetchRealm(realmSlug: string) {
     const requestUrl = await generateRequestUrl(format(REALM_PATH, { realmSlug }), "dynamic");

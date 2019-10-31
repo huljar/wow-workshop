@@ -1,22 +1,10 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, Asset, generateRequestUrl, callApi, format } from "../utils";
 
 const ITEM_CLASSES_INDEX_PATH = "/data/wow/item-class/index";
 const ITEM_CLASS_PATH = "/data/wow/item-class/{itemClassId}";
 const ITEM_SUBCLASS_PATH = "/data/wow/item-class/{itemClassId}/item-subclass/{itemSubclassId}";
 const ITEM_PATH = "/data/wow/item/{itemId} ";
 const ITEM_MEDIA_PATH = "/data/wow/media/item/{itemId}";
-
-interface ItemClassShort {
-    key: Key;
-    name: string;
-    id: number;
-}
-
-interface ItemSubclassShort {
-    key: Key;
-    name: string;
-    id: number;
-}
 
 export interface ItemShort {
     id: number;
@@ -30,16 +18,25 @@ export interface ItemShort {
     subclass: number;
 }
 
+/**
+ * Interface for API call: Game Data → Item → Item Classes Index
+ */
 export interface ItemClassesIndex extends ApiResponse {
-    item_classes: ItemClassShort[];
+    item_classes: ShortEntry[];
 }
 
+/**
+ * Interface for API call: Game Data → Item → Item Class
+ */
 export interface ItemClass extends ApiResponse {
     class_id: number;
     name: string;
-    item_subclasses: ItemSubclassShort[];
+    item_subclasses: ShortEntry[];
 }
 
+/**
+ * Interface for API call: Game Data → Item → Item Subclass
+ */
 export interface ItemSubclass extends ApiResponse {
     class_id: number;
     subclass_id: number;
@@ -48,6 +45,9 @@ export interface ItemSubclass extends ApiResponse {
     hide_subclass_in_tooltips?: true;
 }
 
+/**
+ * Interface for API call: Game Data → Item → Item
+ */
 export interface Item extends ApiResponse {
     id: number;
     name: string;
@@ -61,8 +61,8 @@ export interface Item extends ApiResponse {
         key: Key;
         id: number;
     };
-    item_class: ItemClassShort;
-    item_subclass: ItemSubclassShort;
+    item_class: ShortEntry;
+    item_subclass: ShortEntry;
     inventory_type: {
         type: string;
         name: string;
@@ -74,33 +74,63 @@ export interface Item extends ApiResponse {
     is_stackable: boolean;
 }
 
+/**
+ * Interface for API call: Game Data → Item → Item Media
+ */
 export interface ItemMedia extends ApiResponse {
-    assets: {
-        key: string;
-        value: string;
-    }[];
+    assets: Asset[];
 }
 
+/**
+ * Fetches an index of item classes.
+ *
+ * @return  Promise that resolves to the item classes index
+ */
 export async function fetchItemClassesIndex() {
     const requestUrl = await generateRequestUrl(ITEM_CLASSES_INDEX_PATH, "static");
     return callApi<ItemClassesIndex>(requestUrl);
 }
 
+/**
+ * Fetches detailed information about an item class.
+ *
+ * @param  itemClassId  The item class identifier
+ * @return  Promise that resolves to the item class information
+ */
 export async function fetchItemClass(itemClassId: number) {
     const requestUrl = await generateRequestUrl(format(ITEM_CLASS_PATH, { itemClassId }), "static");
     return callApi<ItemClass>(requestUrl);
 }
 
+/**
+ * Fetches detailed information about an item subclass.
+ *
+ * @param  itemClassId     The item class identifier
+ * @param  itemSubclassId  The item subclass identifier
+ * @return  Promise that resolves to the item subclass information
+ */
 export async function fetchItemSubclass(itemClassId: number, itemSubclassId: number) {
     const requestUrl = await generateRequestUrl(format(ITEM_SUBCLASS_PATH, { itemClassId, itemSubclassId }), "static");
     return callApi<ItemSubclass>(requestUrl);
 }
 
+/**
+ * Fetches detailed information about an item.
+ *
+ * @param  itemId  The item identifier
+ * @return  Promise that resolves to the item information
+ */
 export async function fetchItem(itemId: number) {
     const requestUrl = await generateRequestUrl(format(ITEM_PATH, { itemId }), "static");
     return callApi<Item>(requestUrl);
 }
 
+/**
+ * Fetches media corresponding to the given item.
+ *
+ * @param  itemId  The item identifier
+ * @return  Promise that resolves to the item media
+ */
 export async function fetchItemMedia(itemId: number) {
     const requestUrl = await generateRequestUrl(format(ITEM_MEDIA_PATH, { itemId }), "static");
     return callApi<ItemMedia>(requestUrl);

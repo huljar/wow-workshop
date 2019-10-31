@@ -1,20 +1,19 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
-import { MythicKeystoneAffixShort } from "./mythicKeystoneAffix";
+import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
 
 const MYTHIC_KEYSTONE_LEADERBOARDS_INDEX_PATH = "/data/wow/connected-realm/{connectedRealmId}/mythic-leaderboard/index";
 const MYTHIC_KEYSTONE_LEADERBOARD_PATH =
     "/data/wow/connected-realm/{connectedRealmId}/mythic-leaderboard/{dungeonId}/period/{period}";
 
-interface LeaderboardShort {
-    key: Key;
-    name: string;
-    id: number;
-}
-
+/**
+ * Interface for API call: Game Data → Mythic Keystone Leaderboard → Mythic Keystone Leaderboards Index
+ */
 export interface MythicKeystoneLeaderboardsIndex extends ApiResponse {
-    current_leaderboards: LeaderboardShort[];
+    current_leaderboards: ShortEntry[];
 }
 
+/**
+ * Interface for API call: Game Data → Mythic Keystone Leaderboard → Mythic Keystone Leaderboard
+ */
 export interface MythicKeystoneLeaderboard extends ApiResponse {
     map: {
         name: string;
@@ -49,13 +48,19 @@ export interface MythicKeystoneLeaderboard extends ApiResponse {
         }[];
     }[];
     keystone_affixes: {
-        keystone_affix: MythicKeystoneAffixShort;
+        keystone_affix: ShortEntry;
         starting_level: number;
     }[];
     map_challenge_mode_id: number;
     name: string;
 }
 
+/**
+ * Fetches an index of mythic keystone leaderboards.
+ *
+ * @param  connectedRealmId  The ID of the connected realm to fetch the leaderboards for
+ * @return  Promise that resolves to the leaderboards index
+ */
 export async function fetchMythicKeystoneLeaderboardsIndex(connectedRealmId: number) {
     const requestUrl = await generateRequestUrl(
         format(MYTHIC_KEYSTONE_LEADERBOARDS_INDEX_PATH, { connectedRealmId }),
@@ -64,6 +69,14 @@ export async function fetchMythicKeystoneLeaderboardsIndex(connectedRealmId: num
     return callApi<MythicKeystoneLeaderboardsIndex>(requestUrl);
 }
 
+/**
+ * Fetches detailed information about a mythic keystone leaderboard.
+ *
+ * @param  connectedRealmId  The connected realm identifier
+ * @param  dungeonId         The dungeon identifier
+ * @param  period            The period
+ * @return  Promise that resolves to the leaderboard information
+ */
 export async function fetchMythicKeystoneLeaderboard(connectedRealmId: number, dungeonId: number, period: number) {
     const requestUrl = await generateRequestUrl(
         format(MYTHIC_KEYSTONE_LEADERBOARD_PATH, { connectedRealmId, dungeonId, period }),
