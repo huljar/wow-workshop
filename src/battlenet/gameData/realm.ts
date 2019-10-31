@@ -1,12 +1,9 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
 
 const REALM_INDEX_PATH = "/data/wow/realm/index";
 const REALM_PATH = "/data/wow/realm/{realmSlug}";
 
-export interface RealmShort {
-    key: Key;
-    name: string;
-    id: number;
+export interface RealmShort extends ShortEntry {
     slug: string;
 }
 
@@ -43,9 +40,9 @@ export interface RealmIndex extends ApiResponse {
 export type Realm = RealmDetails & ApiResponse;
 
 /**
- * Fetches the index of all realms in the region.
+ * Fetches an index of all realms in the configured region.
  *
- * @return  Promise that resolves to the realm index.
+ * @return  Promise that resolves to the realm index
  */
 export async function fetchRealmIndex() {
     const requestUrl = await generateRequestUrl(REALM_INDEX_PATH, "dynamic");

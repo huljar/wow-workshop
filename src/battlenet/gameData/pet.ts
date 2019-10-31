@@ -1,18 +1,18 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
 
 const PETS_INDEX_PATH = "/data/wow/pet/index ";
 const PET_PATH = "/data/wow/pet/{petId}";
 
-export interface PetShort {
-    key: Key;
-    name: string;
-    id: number;
-}
-
+/**
+ * Interface for API call: Game Data → Pet → Pets Index
+ */
 export interface PetsIndex extends ApiResponse {
-    pets: PetShort[];
+    pets: ShortEntry[];
 }
 
+/**
+ * Interface for API call: Game Data → Pet → Pet
+ */
 export interface Pet extends ApiResponse {
     id: number;
     name: string;
@@ -45,11 +45,22 @@ export interface Pet extends ApiResponse {
     icon: string;
 }
 
+/**
+ * Fetches an index of pets.
+ *
+ * @return  Promise that resolves to the pets index
+ */
 export async function fetchPetsIndex() {
     const requestUrl = await generateRequestUrl(PETS_INDEX_PATH, "static");
     return callApi<PetsIndex>(requestUrl);
 }
 
+/**
+ * Fetches detailed information about a pet.
+ *
+ * @param  petId   The pet identifier
+ * @return  Promise that resolves to the pet information
+ */
 export async function fetchPet(petId: number) {
     const requestUrl = await generateRequestUrl(format(PET_PATH, { petId }), "static");
     return callApi<Pet>(requestUrl);

@@ -1,21 +1,10 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
-import { ClassShort } from "./playableClass";
+import { ApiResponse, Key, ShortEntry, Gendered, generateRequestUrl, callApi, format } from "../utils";
 
 const PLAYABLE_SPECIALIZATIONS_INDEX_PATH = "/data/wow/playable-specialization/index";
 const PLAYABLE_SPECIALIZATION_PATH = "/data/wow/playable-specialization/{specId}";
 
-export interface SpecializationShort {
-    key: Key;
-    name: string;
-    id: number;
-}
-
 interface Talent {
-    talent: {
-        key: Key;
-        name: string;
-        id: number;
-    };
+    talent: ShortEntry;
     spell_tooltip: {
         description: string;
         cast_time: string;
@@ -30,19 +19,22 @@ interface TalentTier {
     talents: Talent[];
 }
 
+/**
+ * Interface for API call: Game Data → Playable Specialization → Playable Specializations Index
+ */
 export interface PlayableSpecializationsIndex extends ApiResponse {
-    character_specializations: SpecializationShort[];
-    pet_specializations: SpecializationShort[];
+    character_specializations: ShortEntry[];
+    pet_specializations: ShortEntry[];
 }
 
+/**
+ * Interface for API call: Game Data → Playable Specialization → Playable Specialization
+ */
 export interface PlayableSpecialization extends ApiResponse {
     id: number;
-    playable_class: ClassShort;
+    playable_class: ShortEntry;
     name: string;
-    gender_description: {
-        male: string;
-        female: string;
-    };
+    gender_description: Gendered<string>;
     media: {
         key: Key;
         id: number;
@@ -55,11 +47,22 @@ export interface PlayableSpecialization extends ApiResponse {
     pvp_talents: Talent[];
 }
 
+/**
+ * Fetches an index of playable specializations.
+ *
+ * @return  Promise that resolves to the playable specializations index
+ */
 export async function fetchPlayableSpecializationsIndex() {
     const requestUrl = await generateRequestUrl(PLAYABLE_SPECIALIZATIONS_INDEX_PATH, "static");
     return callApi<PlayableSpecializationsIndex>(requestUrl);
 }
 
+/**
+ * Fetches detailed information about a playable specialization.
+ *
+ * @param  specId  The specifier identifier
+ * @return  Promise that resolves to the playable specialization information
+ */
 export async function fetchPlayableSpecialization(specId: number) {
     const requestUrl = await generateRequestUrl(format(PLAYABLE_SPECIALIZATION_PATH, { specId }), "static");
     return callApi<PlayableSpecialization>(requestUrl);

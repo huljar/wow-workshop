@@ -1,15 +1,9 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
 
 const REPUTATION_FACTIONS_INDEX_PATH = "/data/wow/reputation-faction/index";
 const REPUTATION_FACTION_PATH = "/data/wow/reputation-faction/{reputationFactionId}";
 const REPUTATION_TIERS_INDEX_PATH = "/data/wow/reputation-tiers/index";
 const REPUTATION_TIERS_PATH = "/data/wow/reputation-tiers/{reputationTiersId}";
-
-export interface ReputationFactionShort {
-    key: Key;
-    name: string;
-    id: number;
-}
 
 interface ReputationTierShortBase {
     key: Key;
@@ -36,7 +30,7 @@ interface LeafReputationFaction extends ReputationFactionBase {
 }
 
 interface HeaderReputationFaction extends ReputationFactionBase {
-    factions: ReputationFactionShort[];
+    factions: ShortEntry[];
     player_faction?: {
         type: string;
         name: string;
@@ -60,24 +54,38 @@ interface DefaultReputationTiers extends ReputationTiersBase {
 
 interface NamedReputationTiers extends ReputationTiersBase {
     id: number;
-    faction: ReputationFactionShort;
+    faction: ShortEntry;
 }
 
+/**
+ * Interface for API call: Game Data → Reputations → Reputation Factions Index
+ */
 export interface ReputationFactionsIndex extends ApiResponse {
-    factions: ReputationFactionShort[];
-    root_factions: ReputationFactionShort[];
+    factions: ShortEntry[];
+    root_factions: ShortEntry[];
 }
 
+/**
+ * Type for API call: Game Data → Reputations → Reputation Faction
+ */
 export type ReputationFaction = (LeafReputationFaction | HeaderReputationFaction) & ApiResponse;
 
+/**
+ * Interface for API call: Game Data → Reputations → Reputation Tiers Index
+ */
 export interface ReputationTiersIndex extends ApiResponse {
     reputation_tiers: [DefaultReputationTierShort, ...NamedReputationTierShort[]];
 }
 
+/**
+ * Type for API call: Game Data → Reputations → Reputation Tiers
+ */
 export type ReputationTiers = (DefaultReputationTiers | NamedReputationTiers) & ApiResponse;
 
 /**
- * Fetches a reputation factions index.
+ * Fetches an index of reputation factions.
+ *
+ * @return  Promise that resolves to the reputation factions index
  */
 export async function fetchReputationFactionsIndex() {
     const requestUrl = await generateRequestUrl(REPUTATION_FACTIONS_INDEX_PATH, "static");
@@ -85,9 +93,10 @@ export async function fetchReputationFactionsIndex() {
 }
 
 /**
- * Fetches a reputation faction.
+ * Fetches detailed information about a reputation faction.
  *
- * @param      {number}  reputationFactionId  The reputation faction identifier
+ * @param  reputationFactionId  The reputation faction identifier
+ * @return  Promise that resolves to the reputation faction information
  */
 export async function fetchReputationFaction(reputationFactionId: number) {
     const requestUrl = await generateRequestUrl(format(REPUTATION_FACTION_PATH, { reputationFactionId }), "static");
@@ -95,7 +104,9 @@ export async function fetchReputationFaction(reputationFactionId: number) {
 }
 
 /**
- * Fetches a reputation tiers index.
+ * Fetches an index of reputation tiers.
+ *
+ * @return  Promise that resolves to the reputation tiers index
  */
 export async function fetchReputationTiersIndex() {
     const requestUrl = await generateRequestUrl(REPUTATION_TIERS_INDEX_PATH, "static");
@@ -103,9 +114,10 @@ export async function fetchReputationTiersIndex() {
 }
 
 /**
- * Fetches reputation tiers.
+ * Fetches detailed information about reputation tiers.
  *
- * @param      {number}  reputationTiersId  The reputation tiers identifier
+ * @param  reputationTiersId  The reputation tiers identifier
+ * @return  Promise that resolves to the reputation tiers information
  */
 export async function fetchReputationTiers(reputationTiersId: number) {
     const requestUrl = await generateRequestUrl(format(REPUTATION_TIERS_PATH, { reputationTiersId }), "static");
