@@ -1,11 +1,7 @@
+import { ShortEntry } from "../utils";
 import { RealmShort } from "../gameData/realm";
 
-export interface GuildShort {
-    key: {
-        href: string;
-    };
-    name: string;
-    id: number;
+export interface GuildShort extends ShortEntry {
     realm: RealmShort;
 }
 

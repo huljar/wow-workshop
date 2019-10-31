@@ -1,4 +1,4 @@
-import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
 
 const REALM_INDEX_PATH = "/data/wow/realm/index";
 const REALM_PATH = "/data/wow/realm/{realmSlug}";
@@ -9,20 +9,13 @@ export interface RealmShort extends ShortEntry {
 
 export interface RealmDetails {
     id: number;
-    region: {
-        key: Key;
-        name: string;
-        id: number;
-    };
+    region: ShortEntry;
     connected_realm: Key;
     name: string;
     category: string;
     locale: string;
     timezone: string;
-    type: {
-        type: string;
-        name: string;
-    };
+    type: TypedName;
     is_tournament: boolean;
     slug: string;
 }

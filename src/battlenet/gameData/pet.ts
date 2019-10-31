@@ -1,4 +1,4 @@
-import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
 
 const PETS_INDEX_PATH = "/data/wow/pet/index ";
 const PET_PATH = "/data/wow/pet/{petId}";
@@ -19,10 +19,7 @@ export interface Pet extends ApiResponse {
     creature_display: {
         key: Key;
     };
-    battle_pet_type: {
-        type: string;
-        name: string;
-    };
+    battle_pet_type: TypedName;
     description: string;
     is_capturable: boolean;
     is_tradable: boolean;
@@ -30,18 +27,11 @@ export interface Pet extends ApiResponse {
     is_alliance_only: boolean;
     is_horde_only: boolean;
     abilities?: {
-        ability: {
-            key: Key;
-            name: string;
-            id: number;
-        };
+        ability: ShortEntry;
         slot: number;
         required_level: number;
     }[];
-    source: {
-        type: string;
-        name: string;
-    };
+    source: TypedName;
     icon: string;
 }
 

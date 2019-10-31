@@ -1,4 +1,4 @@
-import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
 
 const REPUTATION_FACTIONS_INDEX_PATH = "/data/wow/reputation-faction/index";
 const REPUTATION_FACTION_PATH = "/data/wow/reputation-faction/{reputationFactionId}";
@@ -31,10 +31,7 @@ interface LeafReputationFaction extends ReputationFactionBase {
 
 interface HeaderReputationFaction extends ReputationFactionBase {
     factions: ShortEntry[];
-    player_faction?: {
-        type: string;
-        name: string;
-    };
+    player_faction?: TypedName;
     is_header: true;
     header_shows_bar?: true;
 }

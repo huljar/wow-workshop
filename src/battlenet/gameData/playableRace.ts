@@ -1,4 +1,4 @@
-import { ApiResponse, ShortEntry, Gendered, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, ShortEntry, Gendered, TypedName, generateRequestUrl, callApi, format } from "../utils";
 
 const PLAYABLE_RACES_INDEX_PATH = "/data/wow/playable-race/index";
 const PLAYABLE_RACE_PATH = "/data/wow/playable-race/{playableRaceId}";
@@ -17,10 +17,7 @@ export interface PlayableRace extends ApiResponse {
     id: number;
     name: string;
     gender_name: Gendered<string>;
-    faction: {
-        type: string;
-        name: string;
-    };
+    faction: TypedName;
     is_selectable: boolean;
     is_allied_race: boolean;
 }

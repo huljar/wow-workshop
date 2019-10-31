@@ -1,10 +1,6 @@
-import { ApiResponse, generateRequestUrl, callApi, format } from "../utils";
-import { CharacterShort } from "./characterProfile";
-import { RaceShort } from "../gameData/playableRace";
-import { ClassShort } from "../gameData/playableClass";
-import { SpecializationShort } from "../gameData/playableSpecialization";
+import { ApiResponse, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
+import { RealmShort } from "../gameData/realm";
 import { GuildCrest } from "./guild";
-import { ItemShort } from "../gameData/item";
 
 const CHARACTER_APPEARANCE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}/appearance";
 
@@ -12,10 +8,12 @@ const CHARACTER_APPEARANCE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{c
  * { item_description }
  */
 export interface CharacterAppearanceSummary extends ApiResponse {
-    character: CharacterShort;
-    playable_race: RaceShort;
-    playable_class: ClassShort;
-    active_spec: SpecializationShort;
+    character: ShortEntry & {
+        realm: RealmShort;
+    };
+    playable_race: ShortEntry;
+    playable_class: ShortEntry;
+    active_spec: ShortEntry;
     guild_crest: GuildCrest;
     appearance: {
         face_variation: number;
@@ -25,7 +23,14 @@ export interface CharacterAppearanceSummary extends ApiResponse {
         feature_variation: number;
         custom_display_options: number[];
     };
-    items: ItemShort[];
+    items: {
+        id: number;
+        slot: TypedName;
+        enchant: number;
+        item_appearance_modifier_id: number;
+        internal_slot_id: number;
+        subclass: number;
+    }[];
 }
 
 /**

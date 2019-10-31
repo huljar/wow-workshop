@@ -1,4 +1,4 @@
-import { ApiResponse, Key, ShortEntry, Gendered, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, Gendered, TypedName, generateRequestUrl, callApi, format } from "../utils";
 
 const PLAYABLE_SPECIALIZATIONS_INDEX_PATH = "/data/wow/playable-specialization/index";
 const PLAYABLE_SPECIALIZATION_PATH = "/data/wow/playable-specialization/{specId}";
@@ -39,10 +39,7 @@ export interface PlayableSpecialization extends ApiResponse {
         key: Key;
         id: number;
     };
-    role: {
-        type: string;
-        name: string;
-    };
+    role: TypedName;
     talent_tiers: TalentTier[];
     pvp_talents: Talent[];
 }

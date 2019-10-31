@@ -1,4 +1,4 @@
-import { ApiResponse, Key, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
 
 const MOUNTS_INDEX_PATH = "/data/wow/mount/index";
 const MOUNT_PATH = "/data/wow/mount/{mountId}";
@@ -20,10 +20,7 @@ export interface Mount extends ApiResponse {
         key: Key;
     }[];
     description: string;
-    source: {
-        type: string;
-        name: string;
-    };
+    source: TypedName;
 }
 
 /**

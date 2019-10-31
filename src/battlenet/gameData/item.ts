@@ -1,4 +1,4 @@
-import { ApiResponse, Key, ShortEntry, Asset, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, ShortEntry, TypedName, Asset, generateRequestUrl, callApi, format } from "../utils";
 
 const ITEM_CLASSES_INDEX_PATH = "/data/wow/item-class/index";
 const ITEM_CLASS_PATH = "/data/wow/item-class/{itemClassId}";
@@ -8,10 +8,7 @@ const ITEM_MEDIA_PATH = "/data/wow/media/item/{itemId}";
 
 export interface ItemShort {
     id: number;
-    slot: {
-        type: string;
-        name: string;
-    };
+    slot: TypedName;
     enchant: number;
     item_appearance_modifier_id: number;
     internal_slot_id: number;
@@ -51,10 +48,7 @@ export interface ItemSubclass extends ApiResponse {
 export interface Item extends ApiResponse {
     id: number;
     name: string;
-    quality: {
-        type: string;
-        name: string;
-    };
+    quality: TypedName;
     level: number;
     required_level: number;
     media: {
@@ -63,10 +57,7 @@ export interface Item extends ApiResponse {
     };
     item_class: ShortEntry;
     item_subclass: ShortEntry;
-    inventory_type: {
-        type: string;
-        name: string;
-    };
+    inventory_type: TypedName;
     purchase_price: number;
     sell_price: number;
     max_count: number;

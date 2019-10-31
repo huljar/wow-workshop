@@ -53,6 +53,11 @@ export interface Gendered<T> {
     female: T;
 }
 
+export interface TypedName {
+    type: string;
+    name: string;
+}
+
 export interface Asset {
     key: string;
     value: string;

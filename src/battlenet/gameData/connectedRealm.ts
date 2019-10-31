@@ -1,4 +1,4 @@
-import { ApiResponse, Key, generateRequestUrl, callApi, format } from "../utils";
+import { ApiResponse, Key, TypedName, generateRequestUrl, callApi, format } from "../utils";
 import { RealmDetails } from "./realm";
 
 const CONNECTED_REALMS_INDEX_PATH = "/data/wow/connected-realm/index";
@@ -17,14 +17,8 @@ export interface ConnectedRealmsIndex extends ApiResponse {
 export interface ConnectedRealm extends ApiResponse {
     id: number;
     has_queue: boolean;
-    status: {
-        type: string;
-        name: string;
-    };
-    population: {
-        type: string;
-        name: string;
-    };
+    status: TypedName;
+    population: TypedName;
     realms: RealmDetails[];
     mythic_leaderboards: Key;
 }
