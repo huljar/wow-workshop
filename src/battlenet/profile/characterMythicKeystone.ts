@@ -6,6 +6,9 @@ const CHARACTER_MYTHIC_KEYSTONE_PROFILE_INDEX_PATH =
 const CHARACTER_MYTHIC_KEYSTONE_SEASON_DETAILS_PATH =
     "/profile/wow/character/{realmSlug}/{characterName}/mythic-keystone-profile/season/{seasonId}";
 
+/**
+ * Interface for API call: Game Data → Character Mythic Keystone → Character Mythic Keystone Profile
+ */
 export interface CharacterMythicKeystoneProfile extends ApiResponse {
     current_period: {
         period: {
@@ -20,6 +23,9 @@ export interface CharacterMythicKeystoneProfile extends ApiResponse {
     character: CharacterShort;
 }
 
+/**
+ * Interface for API call: Game Data → Character Mythic Keystone → Character Mythic Keystone Season Details
+ */
 export interface CharacterMythicKeystoneSeasonDetails extends ApiResponse {
     season: {
         key: Key;
@@ -48,6 +54,13 @@ export interface CharacterMythicKeystoneSeasonDetails extends ApiResponse {
     character: CharacterShort;
 }
 
+/**
+ * Fetches the mythic keystone profile of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character's mythic keystone profile
+ */
 export async function fetchCharacterMythicKeystoneProfile(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_MYTHIC_KEYSTONE_PROFILE_INDEX_PATH, { realmSlug, characterName }),
@@ -56,6 +69,14 @@ export async function fetchCharacterMythicKeystoneProfile(realmSlug: string, cha
     return callApi<CharacterMythicKeystoneProfile>(requestUrl);
 }
 
+/**
+ * Fetches the mythic keystone season details of the given character and season.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @param  seasonId       The season identifier
+ * @return  Promise that resolves to the character's mythic keystone season details
+ */
 export async function fetchCharacterMythicKeystoneSeasonDetails(
     realmSlug: string,
     characterName: string,

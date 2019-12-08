@@ -12,16 +12,29 @@ interface RegionShort {
     id: number;
 }
 
+/**
+ * Interface for API call: Game Data → Region → Regions Index
+ *
+ * The API response in enriched with an ID for easier processing.
+ */
 export interface RegionsIndex extends ApiResponse {
     regions: RegionShort[];
 }
 
+/**
+ * Interface for API call: Game Data → Region → Region
+ */
 export interface Region extends ApiResponse {
     id: number;
     name: string;
     tag: string;
 }
 
+/**
+ * Fetches an index of regions and enhances each region with an ID parsed from the response.
+ *
+ * @return  Promise that resolves to the regions index
+ */
 export async function fetchRegionsIndex(): Promise<RegionsIndex> {
     const requestUrl = await generateRequestUrl(REGIONS_INDEX_PATH, "dynamic");
     const result = await callApi<RegionsIndexApiResponse>(requestUrl);
@@ -39,6 +52,12 @@ export async function fetchRegionsIndex(): Promise<RegionsIndex> {
     };
 }
 
+/**
+ * Fetches detailed information about a region.
+ *
+ * @param  regionId  The region identifier
+ * @return  Promise that resolves to the region information
+ */
 export async function fetchRegion(regionId: number) {
     const requestUrl = await generateRequestUrl(format(REGION_PATH, { regionId }), "dynamic");
     return callApi<Region>(requestUrl);

@@ -24,9 +24,6 @@ enum Locale {
 }
 /* eslint-enable @typescript-eslint/camelcase */
 
-/**
- * { item_description }
- */
 export interface Key {
     href: string;
 }
@@ -134,15 +131,24 @@ export function callApi<T extends object>(url: string): Promise<T> {
     );
 }
 
-export function format(template: string, ...args: (string | number | boolean)[]): string;
-export function format(template: string, args: { [placeholder: string]: string | number | boolean }): string;
 /**
- * { function_description }
+ * Format a template string by replacing the placeholders with the given arguments. The placeholders are brace-enclosed
+ * positive integers <i>n</i> that refer to the 0-indexed <i>n</i>-th replacement argument.
  *
- * @param  template  The template
- * @param  args      The arguments
+ * @param  template  The template string
+ * @param  args      Variable number of arguments that are used to replace the placeholders in the template
  * @return  Formatted string
  */
+export function format(template: string, ...args: (string | number | boolean)[]): string;
+/**
+ * Format a template string by replacing the placeholders with the given arguments. The placeholders are brace-enclosed
+ * strings. Each placeholder is replaced with the corresponding property with the same name in the given object.
+ *
+ * @param  template  The template string
+ * @param  args      Object containing the replacements for the named placeholders in the template
+ * @return  Formatted string
+ */
+export function format(template: string, args: { [placeholder: string]: string | number | boolean }): string;
 export function format(
     template: string,
     ...args: (string | number | boolean | { [placeholder: string]: string | number | boolean })[]

@@ -8,7 +8,7 @@ const GUILD_PATH = "/data/wow/guild/{realmSlug}/{nameSlug}";
 const GUILD_ACHIEVEMENTS_PATH = "/data/wow/guild/{realmSlug}/{nameSlug}/achievements";
 const GUILD_ROSTER_PATH = "/data/wow/guild/{realmSlug}/{nameSlug}/roster";
 
-type GuildShort = CharacterShort;
+export type GuildShort = CharacterShort;
 type GuildAchievement = CharacterAchievement;
 
 interface Component extends ComponentShort {
@@ -23,6 +23,9 @@ export interface GuildCrest {
     };
 }
 
+/**
+ * Interface for API call: Profile → Guild → Guild
+ */
 export interface Guild extends ApiResponse {
     id: number;
     name: string;
@@ -36,6 +39,9 @@ export interface Guild extends ApiResponse {
     created_timestamp: number;
 }
 
+/**
+ * Interface for API call: Profile → Guild → Guild Achievements
+ */
 export interface GuildAchievements extends ApiResponse {
     guild: GuildShort;
     total_quantity: number;
@@ -52,6 +58,9 @@ export interface GuildAchievements extends ApiResponse {
     }[];
 }
 
+/**
+ * Interface for API call: Profile → Guild → Guild Roster
+ */
 export interface GuildRoster extends ApiResponse {
     guild: GuildShort;
     members: {
@@ -77,16 +86,37 @@ export interface GuildRoster extends ApiResponse {
     }[];
 }
 
+/**
+ * Fetches information about a guild.
+ *
+ * @param  realmSlug  The realm slug
+ * @param  nameSlug   The guild name slug
+ * @return  Promise that resolves to the guild information
+ */
 export async function fetchGuild(realmSlug: string, nameSlug: string) {
     const requestUrl = await generateRequestUrl(format(GUILD_PATH, { realmSlug, nameSlug }), "profile");
     return callApi<Guild>(requestUrl);
 }
 
+/**
+ * Fetches the achievements of the given guild.
+ *
+ * @param  realmSlug  The realm slug
+ * @param  nameSlug   The guild name slug
+ * @return  Promise that resolves to the guild achievements
+ */
 export async function fetchGuildAchievements(realmSlug: string, nameSlug: string) {
     const requestUrl = await generateRequestUrl(format(GUILD_ACHIEVEMENTS_PATH, { realmSlug, nameSlug }), "profile");
     return callApi<GuildAchievements>(requestUrl);
 }
 
+/**
+ * Fetches the roster of the given guild.
+ *
+ * @param  realmSlug  The realm slug
+ * @param  nameSlug   The guild name slug
+ * @return  Promise that resolves to the guild roster
+ */
 export async function fetchGuildRoster(realmSlug: string, nameSlug: string) {
     const requestUrl = await generateRequestUrl(format(GUILD_ROSTER_PATH, { realmSlug, nameSlug }), "profile");
     return callApi<GuildRoster>(requestUrl);

@@ -15,6 +15,9 @@ interface Talent {
     };
 }
 
+/**
+ * Interface for API call: Profile → Character Specializations → Character Specializations Summary
+ */
 export interface CharacterSpecializationsSummary extends ApiResponse {
     specializations: {
         specialization: ShortEntry;
@@ -28,6 +31,13 @@ export interface CharacterSpecializationsSummary extends ApiResponse {
     character: CharacterShort;
 }
 
+/**
+ * Fetches a summary of specializations of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character specializations summary
+ */
 export async function fetchCharacterSpecializationsSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_SPECIALIZATIONS_SUMMARY_PATH, { realmSlug, characterName }),

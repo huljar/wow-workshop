@@ -45,6 +45,9 @@ interface HeartOfAzerothAzeriteDetails {
     selected_essences: [PrimarySelectedEssence, ...SecondarySelectedEssence[]];
 }
 
+/**
+ * Interface for API call: Profile → Character Equipment → Character Equipment Summary
+ */
 export interface CharacterEquipmentSummary extends ApiResponse {
     character: CharacterShort;
     equipped_items: {
@@ -116,6 +119,13 @@ export interface CharacterEquipmentSummary extends ApiResponse {
     }[];
 }
 
+/**
+ * Fetches a summary of equipment of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character achievements summary
+ */
 export async function fetchCharacterEquipmentSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_EQUIPMENT_SUMMARY_PATH, { realmSlug, characterName }),

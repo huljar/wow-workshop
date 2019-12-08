@@ -5,7 +5,7 @@ import { GuildCrest } from "./guild";
 const CHARACTER_APPEARANCE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}/appearance";
 
 /**
- * { item_description }
+ * Interface for API call: Profile → Character Appearance → Character Appearance Summary
  */
 export interface CharacterAppearanceSummary extends ApiResponse {
     character: CharacterShort;
@@ -32,10 +32,11 @@ export interface CharacterAppearanceSummary extends ApiResponse {
 }
 
 /**
- * Fetches a character appearance summary.
+ * Fetches a summary of the appearance of the given character.
  *
  * @param  realmSlug      The realm slug
  * @param  characterName  The character name
+ * @return  Promise that resolves to the character appearance summary
  */
 export async function fetchCharacterAppearanceSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(

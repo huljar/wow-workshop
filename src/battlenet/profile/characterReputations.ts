@@ -3,6 +3,9 @@ import { CharacterShort } from "./characterProfile";
 
 const CHARACTER_REPUTATIONS_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}/reputations";
 
+/**
+ * Interface for API call: Profile → Character Reputations → Character Reputations Summary
+ */
 export interface CharacterReputationsSummary extends ApiResponse {
     character: CharacterShort;
     reputations: {
@@ -22,6 +25,13 @@ export interface CharacterReputationsSummary extends ApiResponse {
     }[];
 }
 
+/**
+ * Fetches a summary of reputations of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character reputations summary
+ */
 export async function fetchCharacterReputationsSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_REPUTATIONS_SUMMARY_PATH, { realmSlug, characterName }),

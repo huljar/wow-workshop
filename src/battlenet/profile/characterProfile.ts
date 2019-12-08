@@ -10,7 +10,7 @@ export interface CharacterShort extends ShortEntry {
 }
 
 /**
- * { item_description }
+ * Interface for API call: Profile → Character Profile → Character Profile Summary
  */
 export interface CharacterProfileSummary extends ApiResponse {
     id: number;
@@ -45,11 +45,21 @@ export interface CharacterProfileSummary extends ApiResponse {
     reputations: Key;
 }
 
+/**
+ * Interface for API call: Profile → Character Profile → Character Profile Status
+ */
 export interface CharacterProfileStatus extends ApiResponse {
     id: number;
     is_valid: boolean;
 }
 
+/**
+ * Fetches a profile summary of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character profile summary
+ */
 export async function fetchCharacterProfileSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_PROFILE_SUMMARY_PATH, { realmSlug, characterName }),
@@ -58,6 +68,13 @@ export async function fetchCharacterProfileSummary(realmSlug: string, characterN
     return callApi<CharacterProfileSummary>(requestUrl);
 }
 
+/**
+ * Fetches the profile status of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character profile status
+ */
 export async function fetchCharacterProfileStatus(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_PROFILE_STATUS_PATH, { realmSlug, characterName }),

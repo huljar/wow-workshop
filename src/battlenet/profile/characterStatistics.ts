@@ -17,6 +17,9 @@ interface Attribute {
     effective: number;
 }
 
+/**
+ * Interface for API call: Profile → Character Statistics → Character Statistics Summary
+ */
 export interface CharacterStatisticsSummary extends ApiResponse {
     health: number;
     power: number;
@@ -60,6 +63,13 @@ export interface CharacterStatisticsSummary extends ApiResponse {
     character: CharacterShort;
 }
 
+/**
+ * Fetches a summary of statistics of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character statistics summary
+ */
 export async function fetchCharacterStatisticsSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_STATISTICS_SUMMARY_PATH, { realmSlug, characterName }),

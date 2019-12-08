@@ -11,6 +11,9 @@ interface MatchStatistics {
     lost: number;
 }
 
+/**
+ * Interface for API call: Profile → Character PvP → Character PvP Bracket Statistics
+ */
 export interface CharacterPvPBracketStatistics extends ApiResponse {
     character: CharacterShort;
     faction: TypedName;
@@ -31,6 +34,9 @@ export interface CharacterPvPBracketStatistics extends ApiResponse {
     weekly_match_statistics: MatchStatistics;
 }
 
+/**
+ * Interface for API call: Profile → Character PvP → Character PvP Summary
+ */
 export interface CharacterPvPSummary extends ApiResponse {
     brackets: Key[];
     honor_level: number;
@@ -45,6 +51,14 @@ export interface CharacterPvPSummary extends ApiResponse {
     character: CharacterShort;
 }
 
+/**
+ * Fetches the PvP bracket statistics of the given character and bracket.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @param  pvpBracket     The PvP bracket, e.g. "3v3" or "battlegrounds"
+ * @return  Promise that resolves to the character's PvP summary
+ */
 export async function fetchCharacterPvPBracketStatistics(realmSlug: string, characterName: string, pvpBracket: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_PVP_BRACKET_STATISTICS_PATH, { realmSlug, characterName, pvpBracket }),
@@ -53,6 +67,13 @@ export async function fetchCharacterPvPBracketStatistics(realmSlug: string, char
     return callApi<CharacterPvPBracketStatistics>(requestUrl);
 }
 
+/**
+ * Fetches a PvP summary of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character's PvP summary
+ */
 export async function fetchCharacterPvPSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_PVP_SUMMARY_PATH, { realmSlug, characterName }),

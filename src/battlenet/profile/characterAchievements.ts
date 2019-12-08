@@ -19,6 +19,9 @@ export interface CharacterAchievement {
     completed_timestamp: number;
 }
 
+/**
+ * Interface for API call: Profile → Character Achievements → Character Achievements Summary
+ */
 export interface CharacterAchievementsSummary extends ApiResponse {
     total_quantity: number;
     total_points: number;
@@ -35,6 +38,13 @@ export interface CharacterAchievementsSummary extends ApiResponse {
     character: CharacterShort;
 }
 
+/**
+ * Fetches a summary of achievements of the given character.
+ *
+ * @param  realmSlug      The realm slug
+ * @param  characterName  The character name
+ * @return  Promise that resolves to the character achievements summary
+ */
 export async function fetchCharacterAchievementsSummary(realmSlug: string, characterName: string) {
     const requestUrl = await generateRequestUrl(
         format(CHARACTER_ACHIEVEMENTS_SUMMARY_PATH, { realmSlug, characterName }),
