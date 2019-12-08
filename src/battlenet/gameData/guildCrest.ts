@@ -4,7 +4,7 @@ const GUILD_CREST_COMPONENTS_INDEX_PATH = "/data/wow/guild-crest/index";
 const GUILD_CREST_BORDER_MEDIA_PATH = "/data/wow/media/guild-crest/border/{borderId}";
 const GUILD_CREST_EMBLEM_MEDIA_PATH = "/data/wow/media/guild-crest/emblem/{emblemId}";
 
-interface ComponentShort {
+export interface ComponentShort {
     id: number;
     media: {
         key: Key;

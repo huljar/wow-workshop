@@ -1,12 +1,10 @@
-import { ApiResponse, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
-import { RealmShort } from "../gameData/realm";
+import { ApiResponse, generateRequestUrl, callApi, format } from "../utils";
+import { CharacterShort } from "./characterProfile";
 
 const CHARACTER_MEDIA_PATH = "/profile/wow/character/{realmSlug}/{characterName}/character-media";
 
 export interface CharacterMedia extends ApiResponse {
-    character: ShortEntry & {
-        realm: RealmShort;
-    };
+    character: CharacterShort;
     avatar_url: string;
     bust_url: string;
     render_url: string;

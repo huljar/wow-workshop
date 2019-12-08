@@ -1,5 +1,5 @@
 import { ApiResponse, Key, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
-import { RealmShort } from "../gameData/realm";
+import { CharacterShort } from "./characterProfile";
 
 const CHARACTER_EQUIPMENT_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}/equipment";
 
@@ -46,9 +46,7 @@ interface HeartOfAzerothAzeriteDetails {
 }
 
 export interface CharacterEquipmentSummary extends ApiResponse {
-    character: ShortEntry & {
-        realm: RealmShort;
-    };
+    character: CharacterShort;
     equipped_items: {
         item: {
             key: Key;

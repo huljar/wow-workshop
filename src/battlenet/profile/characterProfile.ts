@@ -5,6 +5,10 @@ import { GuildShort } from "./guild";
 const CHARACTER_PROFILE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}";
 const CHARACTER_PROFILE_STATUS_PATH = "/profile/wow/character/{realmSlug}/{characterName}/status";
 
+export interface CharacterShort extends ShortEntry {
+    realm: RealmShort;
+}
+
 /**
  * { item_description }
  */

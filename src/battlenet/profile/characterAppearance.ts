@@ -1,5 +1,5 @@
 import { ApiResponse, ShortEntry, TypedName, generateRequestUrl, callApi, format } from "../utils";
-import { RealmShort } from "../gameData/realm";
+import { CharacterShort } from "./characterProfile";
 import { GuildCrest } from "./guild";
 
 const CHARACTER_APPEARANCE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}/appearance";
@@ -8,9 +8,7 @@ const CHARACTER_APPEARANCE_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{c
  * { item_description }
  */
 export interface CharacterAppearanceSummary extends ApiResponse {
-    character: ShortEntry & {
-        realm: RealmShort;
-    };
+    character: CharacterShort;
     playable_race: ShortEntry;
     playable_class: ShortEntry;
     active_spec: ShortEntry;

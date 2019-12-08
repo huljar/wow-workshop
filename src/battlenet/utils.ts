@@ -25,21 +25,19 @@ enum Locale {
 /* eslint-enable @typescript-eslint/camelcase */
 
 /**
- * Interface for response data shared by all API responses. Extend from this interface for the actual response types.
- */
-export interface ApiResponse {
-    _links: {
-        self: {
-            href: string;
-        };
-    };
-}
-
-/**
  * { item_description }
  */
 export interface Key {
     href: string;
+}
+
+/**
+ * Interface for response data shared by all API responses. Extend from this interface for the actual response types.
+ */
+export interface ApiResponse {
+    _links: {
+        self: Key;
+    };
 }
 
 export interface ShortEntry {
@@ -61,6 +59,16 @@ export interface TypedName {
 export interface Asset {
     key: string;
     value: string;
+}
+
+export interface Color {
+    id: number;
+    rgba: {
+        r: number;
+        b: number;
+        g: number;
+        a: number;
+    };
 }
 
 export type Namespace = "static" | "dynamic" | "profile";

@@ -1,26 +1,28 @@
 import { ApiResponse, ShortEntry, generateRequestUrl, callApi, format } from "../utils";
-import { RealmShort } from "../gameData/realm";
+import { CharacterShort } from "./characterProfile";
 
 const CHARACTER_ACHIEVEMENTS_SUMMARY_PATH = "/profile/wow/character/{realmSlug}/{characterName}/achievements";
+
+export interface CharacterAchievement {
+    id: number;
+    achievement: ShortEntry;
+    criteria: {
+        id: number;
+        amount?: number;
+        is_completed: boolean;
+        child_criteria: {
+            id: number;
+            amount: number;
+            is_completed: boolean;
+        }[];
+    };
+    completed_timestamp: number;
+}
 
 export interface CharacterAchievementsSummary extends ApiResponse {
     total_quantity: number;
     total_points: number;
-    achievements: {
-        id: number;
-        achievement: ShortEntry;
-        criteria: {
-            id: number;
-            amount?: number;
-            is_completed: boolean;
-            child_criteria: {
-                id: number;
-                amount: number;
-                is_completed: boolean;
-            }[];
-        };
-        completed_timestamp: number;
-    }[];
+    achievements: CharacterAchievement[];
     category_progress: {
         category: ShortEntry;
         quantity: number;
@@ -30,9 +32,7 @@ export interface CharacterAchievementsSummary extends ApiResponse {
         achievement: ShortEntry;
         timestamp: number;
     }[];
-    character: ShortEntry & {
-        realm: RealmShort;
-    };
+    character: CharacterShort;
 }
 
 export async function fetchCharacterAchievementsSummary(realmSlug: string, characterName: string) {
