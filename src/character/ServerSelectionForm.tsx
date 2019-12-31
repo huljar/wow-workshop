@@ -1,25 +1,23 @@
 import React, { ChangeEventHandler, useCallback, useState, useEffect } from "react";
 import "./ServerSelectionForm.scss";
 
-import { fetchRealmIndex, fetchRealm } from "battlenet/gameData/realm";
+import { RealmShort, fetchRealmIndex } from "battlenet/gameData/realm";
 
-interface Server {
-    name: string;
-    id: number;
-    slug: string;
+export type Server = Pick<RealmShort, "name" | "id" | "slug">;
+
+interface ServerSelectionFormProps {
+    onServerSelected: (server: Server) => unknown;
 }
 
-export const ServerSelectionForm: React.FC = () => {
+export const ServerSelectionForm: React.FC<ServerSelectionFormProps> = ({ onServerSelected }) => {
     const [serverList, setServerList] = useState<Server[]>([]);
-    const [selectedServer, setSelectedServer] = useState<number>(0);
 
     const handleOptionChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
         e => {
             const selectionIndex = Number.parseInt(e.target.value);
-            setSelectedServer(selectionIndex);
-            fetchRealm(serverList[selectionIndex].slug).then(console.log);
+            onServerSelected(serverList[selectionIndex]);
         },
-        [serverList]
+        [serverList, onServerSelected]
     );
 
     useEffect(() => {
@@ -44,6 +42,7 @@ export const ServerSelectionForm: React.FC = () => {
         }
 
         fetchData();
+
         return () => {
             ignore = true;
         };
@@ -62,8 +61,6 @@ export const ServerSelectionForm: React.FC = () => {
                     <option disabled>No servers found</option>
                 )}
             </select>
-            <br />
-            {selectedServer}
         </div>
     );
 };

@@ -12,7 +12,7 @@ export interface CharacterShort extends ShortEntry {
 /**
  * Interface for API call: Profile → Character Profile → Character Profile Summary
  */
-export interface CharacterProfileSummary extends ApiResponse {
+export interface CharacterProfileSummary {
     id: number;
     name: string;
     gender: TypedName;
@@ -65,7 +65,7 @@ export async function fetchCharacterProfileSummary(realmSlug: string, characterN
         format(CHARACTER_PROFILE_SUMMARY_PATH, { realmSlug, characterName }),
         "profile"
     );
-    return callApi<CharacterProfileSummary>(requestUrl);
+    return callApi<CharacterProfileSummary & ApiResponse>(requestUrl);
 }
 
 /**
