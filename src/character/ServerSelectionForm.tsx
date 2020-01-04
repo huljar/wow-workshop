@@ -52,11 +52,15 @@ export const ServerSelectionForm: React.FC<ServerSelectionFormProps> = ({ onServ
         <div className="ServerSelectionForm">
             <select onChange={handleOptionChange}>
                 {serverList.length > 0 ? (
-                    serverList.map((server, index) => (
-                        <option key={index} value={index}>
-                            {server.name}
-                        </option>
-                    ))
+                    serverList
+                        .sort((s1, s2) => {
+                            return s1.name < s2.name ? -1 : 1;
+                        })
+                        .map((server, index) => (
+                            <option key={index} value={index}>
+                                {server.name}
+                            </option>
+                        ))
                 ) : (
                     <option disabled>No servers found</option>
                 )}

@@ -10,8 +10,8 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
-    "typescript": "3.6.4",
-    "sass": "^1.23.0"
+    "sass": "^1.23.0",
+    "typescript": "3.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
