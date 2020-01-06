@@ -1,7 +1,8 @@
 import React, { ChangeEventHandler, useCallback, useState, useEffect } from "react";
 import "./ServerSelectionForm.scss";
 
-import { RealmShort, fetchRealmIndex } from "battlenet/gameData/realm";
+import { RealmShort, fetchRealmsShort } from "battlenet/gameData/realm";
+import { useSafeState } from "../hooks/useSafeState";
 
 export type Server = Pick<RealmShort, "name" | "id" | "slug">;
 
@@ -9,8 +10,14 @@ interface ServerSelectionFormProps {
     onServerSelected: (server: Server) => unknown;
 }
 
+const realmToServer = (realm: RealmShort) => ({
+    name: realm.name,
+    id: realm.id,
+    slug: realm.slug
+});
+
 export const ServerSelectionForm: React.FC<ServerSelectionFormProps> = ({ onServerSelected }) => {
-    const [serverList, setServerList] = useState<Server[]>([]);
+    const [serverList, setServerList] = useSafeState<Server[]>([]);
 
     const handleOptionChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
         e => {
@@ -21,32 +28,8 @@ export const ServerSelectionForm: React.FC<ServerSelectionFormProps> = ({ onServ
     );
 
     useEffect(() => {
-        let ignore = false;
-
-        async function fetchData() {
-            try {
-                const result = await fetchRealmIndex();
-                if (!ignore) {
-                    setServerList(
-                        result.realms.map(realm => ({
-                            name: realm.name,
-                            id: realm.id,
-                            slug: realm.slug
-                        }))
-                    );
-                }
-            } catch (error) {
-                console.error(error);
-                setServerList([]);
-            }
-        }
-
-        fetchData();
-
-        return () => {
-            ignore = true;
-        };
-    }, []);
+        fetchRealmsShort().then(realms => setServerList(realms.map(realmToServer)));
+    }, [setServerList]);
 
     return (
         <div className="ServerSelectionForm">

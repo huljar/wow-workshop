@@ -43,6 +43,19 @@ export async function fetchRealmIndex() {
 }
 
 /**
+ * Fetches an index of all realms in the configured region.
+ *
+ * @return  Promise that resolves to the realms short
+ */
+export const fetchRealmsShort = async (): Promise<RealmShort[]> =>
+    fetchRealmIndex()
+        .then(result => result.realms)
+        .catch(error => {
+            console.error(error);
+            return [];
+        });
+
+/**
  * Fetches detailed information about a realm.
  *
  * @param  realmSlug  Slug string of the realm
