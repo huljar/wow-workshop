@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./AvatarRender.scss";
 import { fetchCharacterMedia } from "battlenet/profile/characterMedia";
+import { useSafeState } from "../hooks/useSafeState";
 
 interface AvatarRenderProps {
     selectedServer: string;
@@ -8,29 +9,13 @@ interface AvatarRenderProps {
 }
 
 export const AvatarRender: React.FC<AvatarRenderProps> = ({ selectedServer, selectedCharacter }) => {
-    const [imgUrl, setImgUrl] = useState<string>();
+    const [imgUrl, setImgUrl] = useSafeState<string>("");
 
     useEffect(() => {
-        let ignore = false;
-
-        const fetchData = async () => {
-            try {
-                const result = await fetchCharacterMedia(selectedServer, selectedCharacter);
-                if (!ignore) {
-                    setImgUrl(result.render_url);
-                }
-            } catch (error) {
-                console.error(error);
-                setImgUrl(undefined);
-            }
-        };
-
-        fetchData();
-
-        return () => {
-            ignore = true;
-        };
-    }, [selectedServer, selectedCharacter]);
+        fetchCharacterMedia(selectedServer, selectedCharacter)
+            .then(result => setImgUrl(result.render_url))
+            .catch(error => console.error(error));
+    }, [selectedServer, selectedCharacter, setImgUrl]);
 
     return (
         <div className="AvatarRender">

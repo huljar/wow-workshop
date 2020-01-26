@@ -29,8 +29,9 @@ export const CharacterSearchInput: React.FC<CharacterSearchInputProps> = ({
     );
 
     return (
-        <div className="CharacterSearchInput">
+        <div className="CharacterSearchInput form-inline">
             <input
+                className="form-control"
                 name="characterName"
                 type="text"
                 onChange={handleInputChange}

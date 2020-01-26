@@ -1,6 +1,5 @@
-import React, { ChangeEventHandler, useCallback, useState, useEffect } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect } from "react";
 import "./ServerSelectionForm.scss";
-
 import { RealmShort, fetchRealmsShort } from "battlenet/gameData/realm";
 import { useSafeState } from "../hooks/useSafeState";
 
@@ -28,12 +27,14 @@ export const ServerSelectionForm: React.FC<ServerSelectionFormProps> = ({ onServ
     );
 
     useEffect(() => {
-        fetchRealmsShort().then(realms => setServerList(realms.map(realmToServer)));
+        fetchRealmsShort()
+            .then(realms => setServerList(realms.map(realmToServer)))
+            .catch(error => console.error(error));
     }, [setServerList]);
 
     return (
-        <div className="ServerSelectionForm">
-            <select onChange={handleOptionChange}>
+        <div className="ServerSelectionForm form-inline">
+            <select className="form-control" onChange={handleOptionChange}>
                 {serverList.length > 0 ? (
                     serverList
                         .sort((s1, s2) => {
